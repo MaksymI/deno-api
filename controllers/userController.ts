@@ -8,7 +8,7 @@ import {
 
 export const createUser = async (req: Request, res: Response, next: Next) => {
     try {
-        let serviceCall = await createUserService(req.body);
+        const serviceCall = await createUserService(req.body);
         return res.status(200).send(serviceCall);
     } catch (e) {
         next(e);
@@ -21,7 +21,7 @@ export const getUserDetails = async (
     next: Next
 ) => {
     try {
-        let serviceCall = await getUserService(req.params);
+        const serviceCall = await getUserService(req.params);
         return res.status(200).send('Get User Data');
     } catch (e) {
         next(e);
@@ -30,7 +30,7 @@ export const getUserDetails = async (
 
 export const updateUser = async (req: Request, res: Response, next: Next) => {
     try {
-        let serviceCall = await updateUserService(req.params, req.body);
+        const serviceCall = await updateUserService(req.params, req.body);
         return res.status(200).send(serviceCall);
     } catch (e) {
         next(e);
@@ -39,7 +39,7 @@ export const updateUser = async (req: Request, res: Response, next: Next) => {
 
 export const removeUser = async (req: Request, res: Response, next: Next) => {
     try {
-        let serviceCall = await removeUserService(req.params);
+        const serviceCall = await removeUserService(req.params);
         return res.status(200).send(serviceCall);
     } catch (e) {
         next(e);
