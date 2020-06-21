@@ -3,6 +3,7 @@ import snowlight, {
     IResponse,
 } from 'https://deno.land/x/snowlight/mod.ts';
 import userRoute from './routers/userRoute.ts';
+import { APP_HOST, APP_PORT } from './keys/appConstants.ts';
 const app = snowlight();
 
 /**
@@ -33,7 +34,7 @@ app.use(userRoute);
 
 app.listen(
     {
-        port: 3001,
+        port: APP_PORT,
     },
-    () => console.log('Server started! 🔥')
+    () => console.log(`Server started at ${APP_HOST}/${APP_PORT}! 🔥`)
 );
