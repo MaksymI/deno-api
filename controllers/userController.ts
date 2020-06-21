@@ -1,4 +1,8 @@
-import { Request, Response, Next } from 'https://deno.land/x/snowlight/mod.ts';
+import {
+    IRequest,
+    IResponse,
+    Next,
+} from 'https://deno.land/x/snowlight/mod.ts';
 import {
     createUserService,
     getUserService,
@@ -6,7 +10,7 @@ import {
     removeUserService,
 } from '../services/userServices.ts';
 
-export const createUser = async (req: Request, res: Response, next: Next) => {
+export const createUser = async (req: IRequest, res: IResponse, next: Next) => {
     try {
         const serviceCall = await createUserService(req.body);
         return res.status(200).send(serviceCall);
@@ -16,8 +20,8 @@ export const createUser = async (req: Request, res: Response, next: Next) => {
 };
 
 export const getUserDetails = async (
-    req: Request,
-    res: Response,
+    req: IRequest,
+    res: IResponse,
     next: Next
 ) => {
     try {
@@ -28,7 +32,7 @@ export const getUserDetails = async (
     }
 };
 
-export const updateUser = async (req: Request, res: Response, next: Next) => {
+export const updateUser = async (req: IRequest, res: IResponse, next: Next) => {
     try {
         const serviceCall = await updateUserService(req.params, req.body);
         return res.status(200).send(serviceCall);
@@ -37,7 +41,7 @@ export const updateUser = async (req: Request, res: Response, next: Next) => {
     }
 };
 
-export const removeUser = async (req: Request, res: Response, next: Next) => {
+export const removeUser = async (req: IRequest, res: IResponse, next: Next) => {
     try {
         const serviceCall = await removeUserService(req.params);
         return res.status(200).send(serviceCall);
