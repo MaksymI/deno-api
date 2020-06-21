@@ -1,26 +1,39 @@
-import { Application } from 'https://deno.land/x/oak/mod.ts';
-import router from './routers/userRoute.ts';
+import snowlight, {
+    IRequest,
+    IResponse,
+} from 'https://deno.land/x/snowlight/mod.ts';
+import userRoute from './routers/userRoute.ts';
+const app = snowlight();
 
-const port = 3001;
-const app = new Application();
+/**
+ *  In-built Middlewares to Parse the Request Body
+ * */
+app.use(app.json());
 
-//Logger
-app.use(async (ctx, next) => {
-  await next();
-  const rt = ctx.response.headers.get('X-Response-Time');
-  console.log(`${ctx.request.method} ${ctx.request.url} - ${rt}`);
+/**
+ *  In-built Middlewares to Parse the URL-Encoded format
+ * */
+app.use(app.urlencoded());
+
+/**
+ *  Simple GET API - for Testing
+ * */
+app.get('/', async (req: IRequest, res: IResponse) => {
+    res.send('Hello world!');
 });
 
-// Timing
-app.use(async (ctx, next) => {
-  const start = Date.now();
-  await next();
-  const ms = Date.now() - start;
-  ctx.response.headers.set('X-Response-Time', `${ms}ms`);
-});
+/**
+ *  Middleware to link user-routes
+ * */
+app.use(userRoute);
 
-app.use(router.routes());
-app.use(router.allowedMethods());
+/**
+ * Error Handling Middleware
+ */
 
-console.log(`Server running on port ${port}`);
-await app.listen({ port });
+app.listen(
+    {
+        port: 3001,
+    },
+    () => console.log('Server started! 🔥')
+);
