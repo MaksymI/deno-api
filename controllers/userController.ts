@@ -1,31 +1,47 @@
-import { createUserService, getUserService } from '../services/userService.ts';
-import { RouterContext } from 'https://deno.land/x/oak/mod.ts';
-import { responseEnvelope, errorEnvelope } from '../helpers/response.ts';
+import { Request, Response, Next } from 'https://deno.land/x/snowlight/mod.ts';
+import {
+    createUserService,
+    getUserService,
+    updateUserService,
+    removeUserService,
+} from '../services/userServices.ts';
 
-export const createUser = async (contxt: RouterContext) => {
+export const createUser = async (req: Request, res: Response, next: Next) => {
     try {
-        let response = contxt.response;
-        let body = await contxt.request.body();
-
-        let serviceCall = await createUserService(body.value);
-
-        response.body = await responseEnvelope(201, serviceCall);
-        response.status = 201;
+        let serviceCall = await createUserService(req.body);
+        return res.status(200).send(serviceCall);
     } catch (e) {
-        contxt.response.body = await errorEnvelope(500, e);
-        contxt.response.status = 500;
+        next(e);
     }
 };
 
-export const getUserDetails = async (contxt: RouterContext) => {
+export const getUserDetails = async (
+    req: Request,
+    res: Response,
+    next: Next
+) => {
     try {
-        let response = contxt.response;
-        let serviceCall = await getUserService(contxt.params);
-
-        response.body = await responseEnvelope(200, serviceCall);
-        response.status = 200;
+        let serviceCall = await getUserService(req.params);
+        return res.status(200).send('Get User Data');
     } catch (e) {
-        contxt.response.body = errorEnvelope(500, e);
-        contxt.response.status = 500;
+        next(e);
+    }
+};
+
+export const updateUser = async (req: Request, res: Response, next: Next) => {
+    try {
+        let serviceCall = await updateUserService(req.params, req.body);
+        return res.status(200).send(serviceCall);
+    } catch (e) {
+        next(e);
+    }
+};
+
+export const removeUser = async (req: Request, res: Response, next: Next) => {
+    try {
+        let serviceCall = await removeUserService(req.params);
+        return res.status(200).send(serviceCall);
+    } catch (e) {
+        next(e);
     }
 };

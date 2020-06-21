@@ -1,15 +1,29 @@
-import Database from '../database/config.ts';
-const User: any = new Database('user');
+// import { connectToDB } from '../database/config.ts';
 
 export const createUser = async (data: any) => {
-    let result: any = await User.collection.insertOne(data);
-    return result;
+    return data;
 };
 
-export const getUserById = async (query: any) => {
-    try {
-        return await User.collection.find();
-    } catch (e) {
-        throw e;
-    }
+export const getUserById = (query: any): any => {
+    return {
+        name: 'William Shakespeare',
+        age: 456,
+        email: 'bard.of.avon@heavenmail.com',
+    };
+};
+
+export const updateUser = (filter: any, updateBody: any): any => {
+    return {
+        name: 'William Shakespeare',
+        age: 456,
+        email: 'bard.of.avon@heavenmail.com',
+    };
+};
+
+export const deleteUser = (filter: any): any => {
+    return {
+        name: 'William Shakespeare',
+        age: 456,
+        email: 'bard.of.avon@heavenmail.com',
+    };
 };
